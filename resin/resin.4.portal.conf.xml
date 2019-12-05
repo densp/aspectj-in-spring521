@@ -7,7 +7,7 @@
    - See conf/full.xml for more sample configuration, including load
    - balancing and database configuration.
   -->
-<resin xmlns="http://caucho.com/ns/resin" xmlns:resin="urn:java:com.caucho.resin">
+<resin xmlns:resin="urn:java:com.caucho.resin" xmlns="http://caucho.com/ns/resin">
 
     <!--
      - Logging configuration for the JDK logging API.
@@ -130,11 +130,11 @@
             <!-- The http port -->
             <http address="*" port="8080"/>
 
-	    <!--jvm-arg>-Xms128m</jvm-arg>
-            <jvm-arg>-Xmx128m</jvm-arg-->
-	    
-	    <!--jvm-arg>-javaagent:C:\Users\denis\.m2\repository\org\aspectj\aspectjweaver\1.9.4\aspectjweaver-1.9.4.jar </jvm-arg>
-	    <jvm-arg>-javaagent:C:\Users\denis\.m2\repository\org\springframework\spring-instrument\5.2.1.RELEASE\spring-instrument-5.2.1.RELEASE.jar</jvm-arg-->
+            <!--jvm-arg>-Xms128m</jvm-arg>
+                <jvm-arg>-Xmx128m</jvm-arg-->
+
+            <!--jvm-arg>-javaagent:C:\Users\denis\.m2\repository\org\aspectj\aspectjweaver\1.9.4\aspectjweaver-1.9.4.jar</jvm-arg>
+            <jvm-arg>-javaagent:C:\Users\denis\.m2\repository\org\springframework\spring-instrument\5.2.1.RELEASE\spring-instrument-5.2.1.RELEASE.jar</jvm-arg-->
 
             <jvm-arg>-Duser.language=en</jvm-arg>
             <jvm-arg>-Duser.country=us</jvm-arg>
@@ -142,7 +142,7 @@
             <jvm-arg>-Dcom.sun.management.jmxremote.port=9001</jvm-arg>
             <jvm-arg>-Dcom.sun.management.jmxremote.ssl=false</jvm-arg>
             <jvm-arg>-Dcom.sun.management.jmxremote.authenticate=false</jvm-arg>
-	    <jvm-arg>-Djava.net.preferIPv4Stack=true</jvm-arg>
+            <jvm-arg>-Djava.net.preferIPv4Stack=true</jvm-arg>
             <jvm-arg>-Xdebug</jvm-arg>
             <jvm-arg>-Xrunjdwp:transport=dt_socket,server=y,suspend=n,address=5005</jvm-arg>
 
@@ -151,13 +151,13 @@
         <!-- define the servers in the cluster -->
         <server id="main-app-server" address="127.0.0.1"/>
 
-    	<host id="" root-directory=".">
+        <host id="" root-directory=".">
 
-            <web-app id="/" 
-			root-directory="${__DIR__}/web" 
-			archive-path="${__DIR__}\..\target\aspectj-in-spring521.war"/>
+            <web-app id="/"
+                     root-directory="${__DIR__}/web"
+                     archive-path="${__DIR__}\..\target\aspectj-in-spring521.war"/>
 
-	</host>
+        </host>
 
     </cluster>
 
