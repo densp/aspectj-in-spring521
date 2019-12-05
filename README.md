@@ -145,3 +145,5 @@ So all autoscan defined beans will not be woven if we use fallback spring load t
 
 ####The question is if this is intended behavior or a bug?
 By the way - Spring web app got same behavior as Spring Boot application where external javaagent is required to properly apply AspectJ load time weaving. 
+
+FYI: variant with externally defined javaagents doeas work in Spring 5.2.1 (as expected).
