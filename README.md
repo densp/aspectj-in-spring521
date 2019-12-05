@@ -3,9 +3,9 @@ This web application allows reproducing problem with AspectJ Load Time Weaving i
 
 ### Application description
 We have Spring (5.1.11) web application, XML based application context. Project is rather large, we heavily use both component scan and xml description to define beans.
-There are several asepects which provide around advices for the annotated methods. We use AspectJ definition and Load Time Weaving. 
+There are several aspects which provide around advices for the annotated methods. We use AspectJ definition and Load Time Weaving. 
 Application server - Caucho Resin 4.0.62 (although identical problem and behavior was reproduced on Tomcat 9.0.20).
-We did **NOT** use "-javaagent" to apply both aspectjweaver-1.9.4.jar and spring-instrument-5.1.11.RELEASE.jar.
+We did **NOT** use "-javaagent" to apply neither aspectjweaver-1.9.4.jar not spring-instrument-5.1.11.RELEASE.jar.
 Aspects were applied without any problems.
 
 Application in the current repository is minimal variant which demostrates Aspects behavior in Spring 5.1.11 and 5.2.1.
