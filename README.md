@@ -23,11 +23,11 @@ and
 
 to reproduce behaviour.
 
-*DSAspect* - aspect which introduces AroundAdvice for annotated methods, on method-execution.
+'DSAspect' - aspect which introduces AroundAdvice for annotated methods, on method-execution.
 
-*DSAAspectAnnotation* - annotation to mark methods to be woven.
+'DSAAspectAnnotation' - annotation to mark methods to be woven.
 
-package *com.ds.aspectjspring521.beans* - defines multiple Beans. Each of beans contain two methods - one marked with anotation another not (just to verify that aspect is woven properly).
+package 'com.ds.aspectjspring521.beans' - defines multiple Beans. Each of beans contain two methods - one marked with anotation another not (just to verify that aspect is woven properly).
 
 There are multiples variants of beans (important due to the detected behaviour):
 * with or without interface
