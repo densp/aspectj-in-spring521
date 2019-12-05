@@ -1,0 +1,12 @@
+<!DOCTYPE aspectj PUBLIC "-//AspectJ//DTD//EN" "http://www.eclipse.org/aspectj/dtd/aspectj.dtd">
+<aspectj>
+
+    <weaver options="-verbose -showWeaveInfo">
+        <include within="com.ds..*"/>
+    </weaver>
+
+    <aspects>
+        <aspect name="com.ds.aspectjspring521.DSAspect"/>
+    </aspects>
+
+</aspectj>

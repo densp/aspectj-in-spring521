@@ -1,0 +1,164 @@
+<!--
+  ~ Copyright (c) 2000-2012 Short Consulting AG. All Rights Reserved.
+  -->
+<!--
+   - Resin 4.0 configuration file.
+   -
+   - See conf/full.xml for more sample configuration, including load
+   - balancing and database configuration.
+  -->
+<resin xmlns="http://caucho.com/ns/resin" xmlns:resin="urn:java:com.caucho.resin">
+
+    <!--
+     - Logging configuration for the JDK logging API.
+    -->
+    <log-handler name="" level="all" path="stdout:"
+                 timestamp="[%y-%m-%d %H:%M:%S.%s] {%{thread}} "/>
+
+    <!--
+     - level='info' for production
+     - 'fine' or 'finer' for development and troubleshooting
+    -->
+    <logger name="com.caucho" level="info"/>
+
+    <logger name="com.caucho.java" level="config"/>
+    <logger name="com.caucho.loader" level="config"/>
+
+    <!--
+         - driver .jar files can be placed in ${resin.root}/ext-lib
+         -->
+    <class-loader>
+        <tree-loader path="${resin.root}/ext-lib"/>
+    </class-loader>
+
+    <!--
+     - Remote management requires at least one enabled admin user.
+    -->
+    <resin:AdminAuthenticator>
+        <resin:import path="${__DIR__}/admin-users.xml" optional="true"/>
+    </resin:AdminAuthenticator>
+
+    <!--
+     - For production sites, change dependency-check-interval to something
+     - like 600s, so it only checks for updates every 10 minutes.
+    -->
+    <dependency-check-interval>2s</dependency-check-interval>
+
+    <!--
+     - default configuration applied to all clusters
+    -->
+    <cluster-default>
+        <!-- shared webapp jars for non-classloader-aware libraries -->
+        <!--web-app-default>
+            <class-loader>
+                <library-loader path="${resin.home}/webapp-jars"/>
+            </class-loader>
+        </web-app-default-->
+
+        <!-- standard servlet behavior, including .jsp, .php, and WEB-INF -->
+        <resin:import path="classpath:META-INF/caucho/app-default.xml"/>
+
+        <!-- enables development error pages -->
+        <development-mode-error-page/>
+
+        <!--
+               - Admin services
+              -->
+
+        <!-- deploy from command line remotely
+          <resin:DeployService/>
+           -->
+
+        <!--
+               - Uncomment to allow remote administration services
+               -->
+        <resin:RemoteAdminService/>
+
+        <!-- cluster wide JMX -->
+        <resin:if test="${resin.isProfessional()}">
+            <resin:JmxService/>
+        </resin:if>
+
+        <!-- gathering some statistics -->
+        <resin:if test="${resin.isProfessional()}">
+            <resin:StatService/>
+        </resin:if>
+
+        <!--
+               - Default host configuration applied to all virtual hosts.
+              -->
+        <host-default>
+            <access-log path="log/access.log"
+                        format='%h %l %u %t "%r" %s %b "%{Referer}i" "%{User-Agent}i"'
+                        rollover-period="1W"/>
+
+            <!-- creates the webapps directory for .war expansion -->
+            <web-app-deploy path="webapps"
+                            expand-preserve-fileset="WEB-INF/work/**"/>
+
+            <!--
+                     - Defaults applied to each web-app.
+                    -->
+            <web-app-default>
+                <prologue>
+                    <allow-servlet-el/>
+                </prologue>
+
+                <session-config>
+                    <!--
+                             - enable persistent sessions
+                                 - <use-persistent-store/>
+                            -->
+                    <enable-url-rewriting>false</enable-url-rewriting>
+                </session-config>
+            </web-app-default>
+
+        </host-default>
+    </cluster-default>
+
+    <!--
+     - Configures the main appliction cluster.  Load-balancing configurations
+     - will also have a load-balance-tier cluster.
+    -->
+    <cluster id="main-app-tier">
+        <!-- sets the content root for the cluster, relative to resin.root -->
+        <root-directory>.</root-directory>
+
+        <!-- defaults for each server, i.e. JVM -->
+        <server-default>
+
+            <!-- The http port -->
+            <http address="*" port="8080"/>
+
+	    <!--jvm-arg>-Xms128m</jvm-arg>
+            <jvm-arg>-Xmx128m</jvm-arg-->
+	    
+	    <!--jvm-arg>-javaagent:C:\Users\denis\.m2\repository\org\aspectj\aspectjweaver\1.9.4\aspectjweaver-1.9.4.jar </jvm-arg>
+	    <jvm-arg>-javaagent:C:\Users\denis\.m2\repository\org\springframework\spring-instrument\5.2.1.RELEASE\spring-instrument-5.2.1.RELEASE.jar</jvm-arg-->
+
+            <jvm-arg>-Duser.language=en</jvm-arg>
+            <jvm-arg>-Duser.country=us</jvm-arg>
+            <jvm-arg>-Dfile.encoding=UTF8</jvm-arg>
+            <jvm-arg>-Dcom.sun.management.jmxremote.port=9001</jvm-arg>
+            <jvm-arg>-Dcom.sun.management.jmxremote.ssl=false</jvm-arg>
+            <jvm-arg>-Dcom.sun.management.jmxremote.authenticate=false</jvm-arg>
+	    <jvm-arg>-Djava.net.preferIPv4Stack=true</jvm-arg>
+            <jvm-arg>-Xdebug</jvm-arg>
+            <jvm-arg>-Xrunjdwp:transport=dt_socket,server=y,suspend=n,address=5005</jvm-arg>
+
+        </server-default>
+
+        <!-- define the servers in the cluster -->
+        <server id="main-app-server" address="127.0.0.1"/>
+
+    	<host id="" root-directory=".">
+
+            <web-app id="/" 
+			root-directory="${__DIR__}/web" 
+			archive-path="${__DIR__}\..\target\aspectj-in-spring521.war"/>
+
+	</host>
+
+    </cluster>
+
+</resin>
